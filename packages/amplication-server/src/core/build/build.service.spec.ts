@@ -4,7 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import * as winston from 'winston';
 import { PrismaService, Prisma } from '@amplication/prisma-db';
 import { StorageService } from '@codebrew/nestjs-storage';
-import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { WINSTON_MODULE_NEST_PROVIDER, WINSTON_MODULE_PROVIDER } from 'nest-winston';
 import { orderBy } from 'lodash';
 import {
   ACTION_JOB_DONE_LOG,
@@ -55,6 +55,13 @@ import { AppSettingsValues } from '../appSettings/constants';
 import { EnumAuthProviderType } from '../appSettings/dto/EnumAuthenticationProviderType';
 import { BuildFilesSaver } from './utils/BuildFilesSaver';
 import { GitService } from '@amplication/git-service/';
+import { NOTIFICATION_TOKEN } from '../notifications/notifications.interface';
+import {
+  NotificationsService,
+  QUEUE_SERVICE_NAME
+} from '../notifications/notifications.service';
+import { ClientKafka } from '@nestjs/microservices';
+import { Logger } from '@nestjs/common';
 
 jest.mock('winston');
 jest.mock('@amplication/data-service-generator');
@@ -547,6 +554,18 @@ describe('BuildService', () => {
           useValue: {
             emitCreateGitPullRequest: () => ({ url: 'http://url.com' })
           }
+        },
+        {
+          provide: NOTIFICATION_TOKEN,
+          useClass: NotificationsService
+        },
+        {
+          provide: QUEUE_SERVICE_NAME,
+          useClass: ClientKafka
+        },
+        {
+          provide: WINSTON_MODULE_NEST_PROVIDER,
+          useClass: Logger
         }
       ]
     }).compile();
