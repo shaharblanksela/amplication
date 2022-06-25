@@ -46,6 +46,10 @@ import { QueueService } from '../queue/queue.service';
 import { previousBuild, BuildFilesSaver } from './utils';
 import { EnumGitProvider } from '../git/dto/enums/EnumGitProvider';
 import { CanUserAccessArgs } from './dto/CanUserAccessArgs';
+import {
+  NOTIFICATION_TOKEN,
+  Notifications
+} from '../notifications/notifications.interface';
 
 export const HOST_VAR = 'HOST';
 export const GENERATE_STEP_MESSAGE = 'Generating Application';
@@ -164,6 +168,8 @@ export class BuildService {
     private readonly userService: UserService,
     private readonly buildFilesSaver: BuildFilesSaver,
     private readonly queueService: QueueService,
+    @Inject(NOTIFICATION_TOKEN)
+    private notificationService: Notifications,
 
     @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: winston.Logger
   ) {
@@ -669,6 +675,11 @@ export class BuildService {
               step,
               EnumActionStepStatus.Success
             );
+
+            await this.notificationService.notify({
+              messageName: 'build was successful',
+              data: build
+            });
           } catch (error) {
             await this.actionService.logInfo(
               step,
@@ -683,6 +694,11 @@ export class BuildService {
               build.appId,
               `Error: ${error}`
             );
+            await this.notificationService.notify({
+              messageName: 'build was failed',
+              data: null,
+              error: error
+            });
           }
         },
         true

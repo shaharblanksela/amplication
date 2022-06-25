@@ -20,6 +20,11 @@ import { StorageOptionsModule } from '../storage/storage-options.module';
 import { BuildFilesSaver } from './utils';
 import { QueueModule } from '../queue/queue.module';
 import { CommitModule } from '../commit/commit.module';
+import { NotificationModule } from '../notifications/notifications.module';
+import { NOTIFICATION_TOKEN } from '../notifications/notifications.interface';
+import { NotificationsService, QUEUE_SERVICE_NAME } from '../notifications/notifications.service';
+import { ClientsModule } from '@nestjs/microservices';
+import { createNestjsKafkaConfig } from '@amplication/kafka';
 
 @Module({
   imports: [
@@ -39,9 +44,24 @@ import { CommitModule } from '../commit/commit.module';
     forwardRef(() => AppModule),
     AppSettingsModule,
     QueueModule,
-    forwardRef(() => CommitModule)
+    forwardRef(() => CommitModule),
+    NotificationModule,
+    ClientsModule.registerAsync([
+      {
+        name: QUEUE_SERVICE_NAME,
+        useFactory: createNestjsKafkaConfig
+      }
+    ])
   ],
-  providers: [BuildService, BuildResolver, BuildFilesSaver],
+  providers: [
+    BuildService,
+    BuildResolver,
+    BuildFilesSaver,
+    {
+      provide: NOTIFICATION_TOKEN,
+      useClass: NotificationsService
+    }
+  ],
   exports: [BuildService, BuildResolver],
   controllers: [BuildController]
 })
