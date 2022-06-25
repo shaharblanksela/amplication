@@ -22,7 +22,10 @@ import { QueueModule } from '../queue/queue.module';
 import { CommitModule } from '../commit/commit.module';
 import { NotificationModule } from '../notifications/notifications.module';
 import { NOTIFICATION_TOKEN } from '../notifications/notifications.interface';
-import { NotificationsService, QUEUE_SERVICE_NAME } from '../notifications/notifications.service';
+import {
+  NotificationsService,
+  QUEUE_SERVICE_NAME
+} from '../notifications/notifications.service';
 import { ClientsModule } from '@nestjs/microservices';
 import { createNestjsKafkaConfig } from '@amplication/kafka';
 
