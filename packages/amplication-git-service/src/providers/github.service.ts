@@ -9,9 +9,7 @@ import { EnumGitOrganizationType } from '../Dto/enums/EnumGitOrganizationType';
 import { ConverterUtil } from '../utils/ConverterUtil';
 import { createAppAuth } from '@octokit/auth-app';
 import { createPullRequest } from 'octokit-plugin-create-pull-request';
-import {
-  UNSUPPORTED_GIT_ORGANIZATION_TYPE
-} from '../utils/constants';
+import { UNSUPPORTED_GIT_ORGANIZATION_TYPE } from '../utils/constants';
 import { components } from '@octokit/openapi-types';
 
 const GITHUB_FILE_TYPE = 'file';
