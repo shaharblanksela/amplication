@@ -4,7 +4,7 @@ import {
   INJECT_CONTEXT_VALUE,
   InjectContextValueParameters
 } from 'src/interceptors/inject-context.interceptor';
-import {CustomDecorator} from "@nestjs/common/decorators/core/set-metadata.decorator";
+import { CustomDecorator } from '@nestjs/common/decorators/core/set-metadata.decorator';
 
 /**
  * Inject given parameter type as given parameter
@@ -15,7 +15,7 @@ import {CustomDecorator} from "@nestjs/common/decorators/core/set-metadata.decor
 export const InjectContextValue = (
   parameterType: InjectableResourceParameter,
   parameterPath: string
-):CustomDecorator =>
+): CustomDecorator =>
   SetMetadata<string, InjectContextValueParameters>(INJECT_CONTEXT_VALUE, {
     parameterType,
     parameterPath

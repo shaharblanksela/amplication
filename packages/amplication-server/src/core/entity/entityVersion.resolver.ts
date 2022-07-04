@@ -1,7 +1,12 @@
 import { Args, Resolver, Parent, ResolveField } from '@nestjs/graphql';
 import { UseFilters, UseGuards } from '@nestjs/common';
 import { FindManyEntityFieldArgs } from './dto';
-import {EntityVersion, Commit, EntityField, EntityPermission} from 'src/models';
+import {
+  EntityVersion,
+  Commit,
+  EntityField,
+  EntityPermission
+} from 'src/models';
 import { GqlResolverExceptionsFilter } from 'src/filters/GqlResolverExceptions.filter';
 import { EntityService } from './entity.service';
 
@@ -29,7 +34,9 @@ export class EntityVersionResolver {
   }
 
   @ResolveField(() => [EntityField])
-  async permissions(@Parent() entityVersion: EntityVersion): Promise<EntityPermission[]> {
+  async permissions(
+    @Parent() entityVersion: EntityVersion
+  ): Promise<EntityPermission[]> {
     const { entityId, versionNumber } = entityVersion;
 
     return this.entityService.getVersionPermissions(entityId, versionNumber);
