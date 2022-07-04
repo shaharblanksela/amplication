@@ -4,6 +4,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { AuthService, AuthUser } from './auth.service';
+import { Request } from "express";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -18,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  async validate(req, payload: JwtDto): Promise<AuthUser> {
+  async validate(req: Request, payload: JwtDto): Promise<AuthUser> {
     if (payload.type === EnumTokenType.ApiToken) {
       const jwt = ExtractJwt.fromAuthHeaderAsBearerToken()(req);
 

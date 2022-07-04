@@ -36,7 +36,7 @@ export class AccountService {
     return this.prisma.account.update(args);
   }
 
-  setCurrentUser(accountId: string, userId: string) {
+  setCurrentUser(accountId: string, userId: string): any {
     return this.prisma.account.update({
       data: {
         currentUser: {

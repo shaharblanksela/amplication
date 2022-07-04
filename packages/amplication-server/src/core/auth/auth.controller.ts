@@ -29,7 +29,7 @@ export class AuthController {
   @UseInterceptors(MorganInterceptor('combined'))
   @Get('/github')
   @UseGuards(AuthGuard('github'))
-  async github() {
+  async github(): Promise<void> {
     return;
   }
 

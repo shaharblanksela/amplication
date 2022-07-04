@@ -8,6 +8,7 @@ import {
   AUTHORIZE_CONTEXT,
   AuthorizeContextParameters
 } from 'src/guards/gql-auth.guard';
+import {CustomDecorator} from "@nestjs/common/decorators/core/set-metadata.decorator";
 
 /**
  *
@@ -21,7 +22,7 @@ import {
 export const AuthorizeContext = (
   parameterType: AuthorizableResourceParameter,
   parameterPath: string
-) =>
+):CustomDecorator =>
   SetMetadata<string, AuthorizeContextParameters>(AUTHORIZE_CONTEXT, {
     parameterType,
     parameterPath

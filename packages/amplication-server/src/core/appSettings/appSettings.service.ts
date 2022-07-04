@@ -7,7 +7,7 @@ import { DEFAULT_APP_SETTINGS, AppSettingsValues } from './constants';
 import { User } from 'src/models';
 import { EnumAuthProviderType } from './dto/EnumAuthenticationProviderType';
 
-export const isStringBool = (val: any) =>
+export const isStringBool: (val: any) => boolean = (val: any) =>
   typeof val === 'boolean' || typeof val === 'string';
 
 @Injectable()
