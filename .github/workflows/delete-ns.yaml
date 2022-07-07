@@ -34,29 +34,3 @@ jobs:
           APPNAME="amplication-$NAMESPACE"
           set +e
           argocd app delete $APPNAME
-          
-      - name: configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
-      - name: set cluster name
-        id: set-cluster-name
-        run: |
-          CLUSTER_NAME="useast1-staging-os"
-          echo "Will run to $CLUSTER_NAME eks cluster"
-          echo "CLUSTER_NAME=$CLUSTER_NAME" >> $GITHUB_ENV
-        env:
-          CLUSTER-ENV: ${{ github.event.inputs.cluster-env }}
-      - name: connect to cluster
-        id: connect-cluster
-        run: |
-          aws eks update-kubeconfig --region $AWS_REGION --name $CLUSTER_NAME
-        env:
-          AWS_REGION: us-east-1
-      - name: delete leftovers
-        env:
-          NAMESPACE: ${{ github.event.inputs.namespace }}
-        run: |
-          kubectl delete pvc --all -n $NAMESPACE
