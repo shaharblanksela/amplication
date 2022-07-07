@@ -33,4 +33,4 @@ jobs:
         run: |
           APPNAME="amplication-$NAMESPACE"
           set +e
-          argocd app delete $APPNAME --cascade
+          argocd app delete $APPNAME
