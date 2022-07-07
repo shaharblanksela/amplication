@@ -34,3 +34,4 @@ jobs:
           APPNAME="amplication-$NAMESPACE"
           set +e
           argocd app delete $APPNAME
+          kubectl delete pvc --all $NAMESPACE
