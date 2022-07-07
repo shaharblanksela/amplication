@@ -34,4 +34,7 @@ jobs:
           APPNAME="amplication-$NAMESPACE"
           set +e
           argocd app delete $APPNAME
-          kubectl delete pvc --all $NAMESPACE
+      - name: delete leftovers pvc
+        env:
+          NAMESPACE: ${{ github.event.inputs.namespace }}
+        run: kubectl delete pvc --all $NAMESPACE
